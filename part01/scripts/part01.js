@@ -2,22 +2,22 @@ var webgl_part01 = {
     canvas: undefined,
     gl: undefined,
     
-    init: function() {
+    start: function() {
         console.log("init");
     	this.canvas = document.getElementById("webgl_part01");
       	this.gl = this.canvas.getContext("webgl");
         
-        this.renderFrame();
+        window.requestAnimationFrame (this.loop.bind(this));
     },
     
-    renderFrame: function() {
+    loop: function(time) {        
+        window.requestAnimationFrame (this.loop.bind(this));
         
-        window.requestAnimationFrame (this.renderFrame.bind(webgl_part01));
-        this.gl.clearColor(1.0, 0.5, 0, 1.0);
+        this.gl.clearColor(Math.abs(Math.sin(time/1000)), Math.abs(Math.sin(time/1333)), Math.abs(Math.sin(time/1777)), 1.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
     }
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    webgl_part01.init();
+    webgl_part01.start();
 });
