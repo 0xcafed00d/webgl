@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>webgl tutorial part one</title>
+        <title>webgl tutorial part one-b</title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="style/style.css">
+
+        <script id="vertex-shader" type="x-shader/x-vertex">
+            attribute vec2 position;
+
+            void main() {
+                gl_Position = vec4(position, 0, 1);
+            }
+        </script>
+        
+        <script id="fragment-shader" type="x-shader/x-fragment">
+            precision mediump float;
+            uniform vec2 canvasSize;
+
+            void main() {
+                gl_FragColor = vec4(0, gl_FragCoord.x / canvasSize[0] * 1.0, 0, 1);
+            }
+        </script>
         <script src="scripts/part01.js"></script>
     </head>
     
     <body>
-        <canvas id="webgl_part01" width="800" height="600"></canvas>
+        <canvas id="webgl_part01b" width="800" height="600"></canvas>
     </body>
+    
 </html>
