@@ -3,21 +3,41 @@ var webgl_part01b = function () {
     var gl;
     var vertexBuffer;
    
+    function loadShader (name) {
+        var shaderElem = document.getElementById(name);
+        if (shaderElem) {
+            var shader = null;
+            
+            if (shaderElem.type == "x-shader/x-fragment") {
+    			shader = gl.createShader(gl.FRAGMENT_SHADER);
+  			} else if (shaderElem.type == "x-shader/x-vertex") {
+    			shader = gl.createShader(gl.VERTEX_SHADER);
+  			} else {
+			     return null;
+  			}
+            
+            gl.shaderSource(shader, shaderElem.text);
+		  	gl.compileShader(shader);  
+    
+  			if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                return shader; 
+            } else {
+      			alert("Failed to compile shader: [" + name +"] " + gl.getShaderInfoLog(shader));  
+            }
+        } 
+        
+        return null;
+    }
+    
     return {
         start: function() {
             console.log("init");
             canvas = document.getElementById("webgl_part01b");
             gl = canvas.getContext("webgl");
             
-            // Create the points for two triangles.
-            vertexBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-                // The first triangle.
-                -1, -1, 1, -1, -1, 1,
-                // The second triangle.
-                -1, 1, 1, -1, 1, 1
-            ]), gl.STATIC_DRAW);
+            var vs = loadShader("vertex-shader");
+            var fs = loadShader("fragment-shader");
+            
             window.requestAnimationFrame(this.loop.bind(this));
         },
     
